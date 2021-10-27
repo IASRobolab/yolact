@@ -172,7 +172,14 @@ pascal_sbd_dataset = dataset_base.copy({
     'class_names': PASCAL_CLASSES,
 })
 
-
+boxes_LEONARDO = dataset_base.copy({
+  'name': 'BOXES',
+  'train_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Train/Annots/trainval_3_classes_from_class1.json',
+  'train_images': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Train/Imgs/',
+  'valid_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Test/Annots/test_3_classes_from_class1.json',
+  'valid_images': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Test/Imgs/',
+  'class_names': ('box','penv','plenv'),
+})
 
 
 
@@ -803,6 +810,15 @@ yolact_plus_resnet50_config = yolact_plus_base_config.copy({
         'preapply_sqrt': False,
         'use_square_anchors': False,
     }),
+})
+
+
+yolact_plus_resnet50_boxes_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_boxes',
+    # Dataset stuff
+    'dataset': boxes_LEONARDO,
+    'num_classes': len(boxes_LEONARDO.class_names) + 1,
+
 })
 
 

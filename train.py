@@ -23,7 +23,7 @@ import datetime
 
 # Oof
 import eval as eval_script
-
+import pdb
 def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
 
@@ -241,7 +241,9 @@ def train():
     last_time = time.time()
 
     epoch_size = len(dataset) // args.batch_size
-    num_epochs = math.ceil(cfg.max_iter / epoch_size)
+    #num_epochs = math.ceil(cfg.max_iter / epoch_size)
+    num_epochs = 80
+    #pdb.set_trace()
     
     # Which learning rate adjustment step are we on? lr' = lr * gamma ^ step_index
     step_index = 0

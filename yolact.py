@@ -7,7 +7,7 @@ from itertools import product
 from math import sqrt
 from typing import List
 from collections import defaultdict
-
+import pdb
 from data.config import cfg, mask_type
 from layers import Detect
 from layers.interpolate import InterpolateModule
@@ -165,7 +165,7 @@ class PredictionModule(nn.Module):
         bbox_x = src.bbox_extra(x)
         conf_x = src.conf_extra(x)
         mask_x = src.mask_extra(x)
-
+        #pdb.set_trace()
         bbox = src.bbox_layer(bbox_x).permute(0, 2, 3, 1).contiguous().view(x.size(0), -1, 4)
         conf = src.conf_layer(conf_x).permute(0, 2, 3, 1).contiguous().view(x.size(0), -1, self.num_classes)
         
@@ -575,7 +575,8 @@ class Yolact(nn.Module):
                 # Use backbone.selected_layers because we overwrote self.selected_layers
                 outs = [outs[i] for i in cfg.backbone.selected_layers]
                 outs = self.fpn(outs)
-
+          
+			
         proto_out = None
         if cfg.mask_type == mask_type.lincomb and cfg.eval_mask_branch:
             with timer.env('proto'):
@@ -636,6 +637,7 @@ class Yolact(nn.Module):
         if proto_out is not None:
             pred_outs['proto'] = proto_out
 
+        pred_outs['feats'] = outs
         if self.training:
             # For the extra loss functions
             if cfg.use_class_existence_loss:

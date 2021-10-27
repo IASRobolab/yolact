@@ -72,6 +72,7 @@ class Detect(object):
 
                 if result is not None and proto_data is not None:
                     result['proto'] = proto_data[batch_idx]
+                    result['feats'] = predictions['feats']
 
                 out.append({'detection': result, 'net': net})
         

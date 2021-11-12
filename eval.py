@@ -400,7 +400,7 @@ def prep_metrics(ap_data, dets, img, gt, gt_masks, h, w, num_crowd, image_id, de
                 crowd_classes, gt_classes = split(gt_classes)
 
     with timer.env('Postprocess'):
-        classes, scores, boxes, masks = postprocess(dets, w, h, crop_masks=args.crop, score_threshold=args.score_threshold)
+        classes, scores, boxes, masks, _ = postprocess(dets, w, h, crop_masks=args.crop, score_threshold=args.score_threshold)
 
         if classes.size(0) == 0:
             return

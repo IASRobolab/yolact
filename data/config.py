@@ -174,9 +174,9 @@ pascal_sbd_dataset = dataset_base.copy({
 
 boxes_LEONARDO = dataset_base.copy({
   'name': 'BOXES',
-  'train_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Train/Annots/trainval_3_classes_from_class1.json',
+  'train_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Train/Annots/train.json',
   'train_images': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Train/Imgs/',
-  'valid_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Test/Annots/test_3_classes_from_class1.json',
+  'valid_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Test/Annots/test.json',
   'valid_images': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Test/Imgs/',
   'class_names': ('box','penv','plenv'),
 })

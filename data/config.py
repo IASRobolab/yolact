@@ -174,11 +174,20 @@ pascal_sbd_dataset = dataset_base.copy({
 
 boxes_LEONARDO = dataset_base.copy({
   'name': 'BOXES',
-  'train_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Train/Annots/train.json',
-  'train_images': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Train/Imgs/',
-  'valid_info': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Test/Annots/test.json',
-  'valid_images': '/home/azunino/Documents/data/BoxImages/ok/Dataset/Test/Imgs/',
+  'train_info': '/home/azunino/Documents/data/Dataset_1/Train/Annots/train.json',
+  'train_images': '/home/azunino/Documents/data/Dataset_1/Train/Imgs/',
+  'valid_info': '/home/azunino/Documents/data/Dataset_1/Test/Annots/test.json',
+  'valid_images': '/home/azunino/Documents/data/Dataset_1/Test/Imgs/',
   'class_names': ('box','penv','plenv'),
+})
+
+boxes_AI4M = dataset_base.copy({
+  'name': 'BOXES',
+  'train_info': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Annots/train.json',
+  'train_images': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Imgs/',
+  'valid_info': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Annots/train.json',
+  'valid_images': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Imgs/',
+  'class_names': ('box'),
 })
 
 
@@ -818,6 +827,14 @@ yolact_plus_resnet50_boxes_config = yolact_plus_resnet50_config.copy({
     # Dataset stuff
     'dataset': boxes_LEONARDO,
     'num_classes': len(boxes_LEONARDO.class_names) + 1,
+
+})
+
+yolact_plus_resnet50_boxes_AI4M_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_boxes_AI4M',
+    # Dataset stuff
+    'dataset': boxes_AI4M,
+    'num_classes': len(boxes_AI4M.class_names) + 1,
 
 })
 

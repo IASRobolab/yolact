@@ -172,6 +172,18 @@ pascal_sbd_dataset = dataset_base.copy({
     'class_names': PASCAL_CLASSES,
 })
 
+
+boxes_AI4M = dataset_base.copy({
+  'name': 'BOXES',
+  'train_info': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Annots/train.json',
+  'train_images': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Imgs/',
+  'valid_info': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Annots/train.json',
+  'valid_images': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Imgs/',
+  'class_names': ('box',),
+  'label_map': { 1:  1 }
+})
+
+
 boxes_LEONARDO = dataset_base.copy({
   'name': 'BOXES',
   'train_info': '/home/azunino/Documents/data/Dataset_1/Train/Annots/train.json',
@@ -181,14 +193,6 @@ boxes_LEONARDO = dataset_base.copy({
   'class_names': ('box','penv','plenv'),
 })
 
-boxes_AI4M = dataset_base.copy({
-  'name': 'BOXES',
-  'train_info': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Annots/train.json',
-  'train_images': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Imgs/',
-  'valid_info': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Annots/train.json',
-  'valid_images': '/home/azunino/Documents/data/Box_dim_AI4MLAB/Imgs/',
-  'class_names': ('box'),
-})
 
 
 

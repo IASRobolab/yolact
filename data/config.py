@@ -184,6 +184,16 @@ boxes_AI4M = dataset_base.copy({
 })
 
 
+box_penv_plenv_AI4M = dataset_base.copy({
+  'name': 'BOXES',
+  'train_info': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/annots/trainval.json',
+  'train_images': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/rgb_HD/',
+  'valid_info': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/annots/trainval.json',
+  'valid_images': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/rgb_HD/',
+  'class_names': ('box','penv','plenv'),
+})
+
+
 boxes_LEONARDO = dataset_base.copy({
   'name': 'BOXES',
   'train_info': '/home/azunino/Documents/data/Dataset_1/Train/Annots/train.json',
@@ -841,6 +851,16 @@ yolact_plus_resnet50_boxes_AI4M_config = yolact_plus_resnet50_config.copy({
     'num_classes': len(boxes_AI4M.class_names) + 1,
 
 })
+
+
+yolact_plus_resnet50_box_penv_plenv_AI4M_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_box_penv_plenv_AI4M',
+    # Dataset stuff
+    'dataset': box_penv_plenv_AI4M,
+    'num_classes': len(box_penv_plenv_AI4M.class_names) + 1,
+
+})
+
 
 
 # Default config

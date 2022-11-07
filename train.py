@@ -1,3 +1,9 @@
+import sys
+
+#yolact_path = '/home/yolact/'
+yolact_path = '/home/azunino/Documents/yolact/'
+sys.path.append(yolact_path)
+import pdb
 from data import *
 from utils.augmentations import SSDAugmentation, BaseTransform
 from utils.functions import MovingAverage, SavePath
@@ -30,7 +36,7 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(
     description='Yolact Training Script')
-parser.add_argument('--batch_size', default=8, type=int,
+parser.add_argument('--batch_size', default=16, type=int,
                     help='Batch size for training')
 parser.add_argument('--resume', default=None, type=str,
                     help='Checkpoint state_dict file to resume training from. If this is "interrupt"'\
@@ -54,7 +60,7 @@ parser.add_argument('--save_folder', default='weights/',
                     help='Directory for saving checkpoint models.')
 parser.add_argument('--log_folder', default='logs/',
                     help='Directory for saving logs.')
-parser.add_argument('--config', default=None,
+parser.add_argument('--config', default=yolact_plus_resnet50_ade_config,
                     help='The config object to use.')
 parser.add_argument('--save_interval', default=10000, type=int,
                     help='The number of iterations between saving the model.')
@@ -78,7 +84,8 @@ parser.add_argument('--batch_alloc', default=None, type=str,
                     help='If using multiple GPUS, you can set this to be a comma separated list detailing which GPUs should get what local batch size (It should add up to your total batch size).')
 parser.add_argument('--no_autoscale', dest='autoscale', action='store_false',
                     help='YOLACT will automatically scale the lr and the number of iterations depending on the batch size. Set this if you want to disable that.')
-
+parser.add_argument('--only_last_layer', default=False, dest='only_last_layer', action='store_true',
+                    help='Only train (fine-tune) the last layer.')
 parser.set_defaults(keep_latest=False, log=True, log_gpu=False, interrupt=True, autoscale=True)
 args = parser.parse_args()
 
@@ -184,7 +191,9 @@ def train():
                                     transform=BaseTransform(MEANS))
 
     # Parallel wraps the underlying module, but when saving and loading we don't want that
-    yolact_net = Yolact()
+    #yolact_net = Yolact()
+    yolact_net = Yolact(only_last_layer=args.only_last_layer)
+    
     net = yolact_net
     net.train()
 
@@ -210,10 +219,13 @@ def train():
             args.start_iter = SavePath.from_str(args.resume).iteration
     else:
         print('Initializing weights...')
-        yolact_net.init_weights(backbone_path=args.save_folder + cfg.backbone.path)
-
+        #pdb.set_trace()
+        #yolact_net.init_weights(backbone_path='/home/azunino/Documents/robotic_arms_vision/weights/yolact_plus_resnet50_boxes_79_19440.pth')#(yolact_path + '/weights/') + cfg.backbone.path)
+        #yolact_net.init_weights(backbone_path='/home/azunino/Documents/robotic_arms_vision/weights/yolact_plus_resnet50_54_800000.pth')
+        yolact_net.init_weights(backbone_path=(yolact_path + '/weights/') + cfg.backbone.path)
     optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=args.momentum,
                           weight_decay=args.decay)
+    #pdb.set_trace()
     criterion = MultiBoxLoss(num_classes=cfg.num_classes,
                              pos_threshold=cfg.positive_iou_threshold,
                              neg_threshold=cfg.negative_iou_threshold,
@@ -232,6 +244,7 @@ def train():
     # Initialize everything
     if not cfg.freeze_bn: yolact_net.freeze_bn() # Freeze bn so we don't kill our means
     yolact_net(torch.zeros(1, 3, cfg.max_size, cfg.max_size).cuda())
+   
     if not cfg.freeze_bn: yolact_net.freeze_bn(True)
 
     # loss counters
@@ -241,8 +254,9 @@ def train():
     last_time = time.time()
 
     epoch_size = len(dataset) // args.batch_size
-    #num_epochs = math.ceil(cfg.max_iter / epoch_size)
-    num_epochs = 80
+    num_epochs = math.ceil(cfg.max_iter / epoch_size)
+    print('NUM EPOCHS: ', num_epochs)
+    #num_epochs = 75
     #pdb.set_trace()
     
     # Which learning rate adjustment step are we on? lr' = lr * gamma ^ step_index
@@ -251,7 +265,7 @@ def train():
     data_loader = data.DataLoader(dataset, args.batch_size,
                                   num_workers=args.num_workers,
                                   shuffle=True, collate_fn=detection_collate,
-                                  pin_memory=True)
+                                  pin_memory=True, generator=torch.Generator(device='cuda'))
     
     
     save_path = lambda epoch, iteration: SavePath(cfg.name, epoch, iteration).get_path(root=args.save_folder)

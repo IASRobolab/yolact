@@ -87,11 +87,14 @@ class ToAbsoluteCoords(object):
 class ToPercentCoords(object):
     def __call__(self, image, masks=None, boxes=None, labels=None):
         height, width, channels = image.shape
-        boxes[:, 0] /= width
-        boxes[:, 2] /= width
-        boxes[:, 1] /= height
-        boxes[:, 3] /= height
-
+        #boxes[:, 0] /= width
+        #boxes[:, 2] /= width
+        #boxes[:, 1] /= height
+        #boxes[:, 3] /= height
+        boxes[:, 0] = boxes[:, 0]/width
+        boxes[:, 2] = boxes[:, 2]/width
+        boxes[:, 1] = boxes[:, 1] /height
+        boxes[:, 3] = boxes[:, 3]/height
         return image, masks, boxes, labels
 
 
@@ -164,9 +167,10 @@ class Resize(object):
                 masks = masks.transpose((2, 0, 1))
 
             # Scale bounding boxes (which are currently absolute coordinates)
-            boxes[:, [0, 2]] *= (width  / img_w)
-            boxes[:, [1, 3]] *= (height / img_h)
-
+            #boxes[:, [0, 2]] *= (width  / img_w)
+            #boxes[:, [1, 3]] *= (height / img_h)
+            boxes[:, [0, 2]] = boxes[:, [0, 2]]*(width  / img_w)
+            boxes[:, [1, 3]] = boxes[:, [1, 3]]*(height / img_h)
         # Discard boxes that are smaller than we'd like
         w = boxes[:, 2] - boxes[:, 0]
         h = boxes[:, 3] - boxes[:, 1]

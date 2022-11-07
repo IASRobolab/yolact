@@ -1,3 +1,8 @@
+import sys
+
+#yolact_path = '/home/yolact/'
+yolact_path = '/home/azunino/Documents/yolact/'
+sys.path.append(yolact_path)
 from data import COCODetection, get_label_map, MEANS, COLORS
 from yolact import Yolact
 from utils.augmentations import BaseTransform, FastBaseTransform, Resize
@@ -114,7 +119,7 @@ def parse_args(argv=None):
     parser.add_argument('--emulate_playback', default=False, dest='emulate_playback', action='store_true',
                         help='When saving a video, emulate the framerate that you\'d get running in real-time mode.')
 
-    parser.set_defaults(no_bar=False, display=False, resume=False, output_coco_json=False, output_web_json=False, shuffle=False,
+    parser.set_defaults(no_bar=False, display=False, resume=False, output_coco_json=False, output_web_json=False, shuffle=True,
                         benchmark=False, no_sort=False, no_hash=False, mask_proto_debug=False, crop=True, detect=False, display_fps=False,
                         emulate_playback=False)
 
@@ -132,7 +137,7 @@ coco_cats = {} # Call prep_coco_cats to fill this
 coco_cats_inv = {}
 color_cache = defaultdict(lambda: {})
 
-def prep_display(dets_out, img, h, w, undo_transform=True, class_color=False, mask_alpha=0.45, fps_str=''):
+def prep_display(dets_out, img, h, w, undo_transform=True, class_color=True, mask_alpha=0.45, fps_str=''):
     """
     Note: If undo_transform=False then im_h and im_w are allowed to be None.
     """
@@ -400,7 +405,10 @@ def prep_metrics(ap_data, dets, img, gt, gt_masks, h, w, num_crowd, image_id, de
                 crowd_classes, gt_classes = split(gt_classes)
 
     with timer.env('Postprocess'):
-        classes, scores, boxes, masks, _ = postprocess(dets, w, h, crop_masks=args.crop, score_threshold=args.score_threshold)
+        try:
+          classes, scores, boxes, masks, _ = postprocess(dets, w, h, crop_masks=args.crop, score_threshold=args.score_threshold)
+        except ValueError:
+          classes, scores, boxes, masks = postprocess(dets, w, h, crop_masks=args.crop, score_threshold=args.score_threshold)
 
         if classes.size(0) == 0:
             return
@@ -922,6 +930,7 @@ def evaluate(net:Yolact, dataset, train_mode=False):
         # the hardest. To combat this, I use a hard-coded hash function based on the image ids
         # to shuffle the indices we use. That way, no matter what python version or how pycocotools
         # handles the data, we get the same result every time.
+        
         hashed = [badhash(x) for x in dataset.ids]
         dataset_indices.sort(key=lambda x: hashed[x])
 

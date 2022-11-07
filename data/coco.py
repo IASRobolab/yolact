@@ -39,6 +39,7 @@ class COCOAnnotationTransform(object):
                 bbox = obj['bbox']
                 label_idx = obj['category_id']
                 if label_idx >= 0:
+                    
                     label_idx = self.label_map[label_idx] - 1
                 final_box = list(np.array([bbox[0], bbox[1], bbox[0]+bbox[2], bbox[1]+bbox[3]])/scale)
                 final_box.append(label_idx)
@@ -107,7 +108,7 @@ class COCODetection(data.Dataset):
             Note that if no crowd annotations exist, crowd will be None
         """
         img_id = self.ids[index]
-
+        
         if self.has_gt:
             ann_ids = self.coco.getAnnIds(imgIds=img_id)
 
@@ -115,20 +116,20 @@ class COCODetection(data.Dataset):
             target = [x for x in self.coco.loadAnns(ann_ids) if x['image_id'] == img_id]
         else:
             target = []
-
+        
         # Separate out crowd annotations. These are annotations that signify a large crowd of
         # objects of said class, where there is no annotation for each individual object. Both
         # during testing and training, consider these crowds as neutral.
         crowd  = [x for x in target if     ('iscrowd' in x and x['iscrowd'])]
         target = [x for x in target if not ('iscrowd' in x and x['iscrowd'])]
         num_crowds = len(crowd)
-
+        
         for x in crowd:
             x['category_id'] = -1
 
         # This is so we ensure that all crowd annotations are at the end of the array
         target += crowd
-        
+
         # The split here is to have compatibility with both COCO2014 and 2017 annotations.
         # In 2014, images have the pattern COCO_{train/val}2014_%012d.jpg, while in 2017 it's %012d.jpg.
         # Our script downloads the images as %012d.jpg so convert accordingly.
@@ -148,11 +149,12 @@ class COCODetection(data.Dataset):
             masks = [self.coco.annToMask(obj).reshape(-1) for obj in target]
             masks = np.vstack(masks)
             masks = masks.reshape(-1, height, width)
-
+        
         if self.target_transform is not None and len(target) > 0:
             target = self.target_transform(target, width, height)
-
+        
         if self.transform is not None:
+            
             if len(target) > 0:
                 target = np.array(target)
                 img, masks, boxes, labels = self.transform(img, masks, target[:, :4],
@@ -168,7 +170,7 @@ class COCODetection(data.Dataset):
                     {'num_crowds': 0, 'labels': np.array([0])})
                 masks = None
                 target = None
-
+        
         if target.shape[0] == 0:
             print('Warning: Augmentation output an example with no ground truth. Resampling...')
             return self.pull_item(random.randint(0, len(self.ids)-1))

@@ -186,9 +186,9 @@ boxes_AI4M = dataset_base.copy({
 
 box_penv_plenv_AI4M = dataset_base.copy({
   'name': 'BOXES',
-  'train_info': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/annots/trainval.json',
+  'train_info': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/annots_not_overlap/trainval.json',
   'train_images': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/rgb_HD/',
-  'valid_info': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/annots/trainval.json',
+  'valid_info': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/annots_not_overlap/trainval.json',
   'valid_images': '/home/azunino/Documents/Data/Robotic_Arms/R4M_Mar22/rgb_HD/',
   'class_names': ('box','penv','plenv'),
 })
@@ -204,6 +204,57 @@ boxes_LEONARDO = dataset_base.copy({
 })
 
 
+balance_corner_profile_hrii= dataset_base.copy({
+  'name': 'OBJECTS',
+  'train_info': '/home/azunino/Documents/Data/hrii_yolact/annots/trainval.json',
+  'train_images': '/home/azunino/Documents/Data/hrii_yolact/RGB/',
+  'valid_info': '/home/azunino/Documents/Data/hrii_yolact/annots/trainval.json',
+  'valid_images': '/home/azunino/Documents/Data/hrii_yolact/RGB/',
+  'class_names': ('balance','corner')
+})
+
+
+valve_LEONARDO= dataset_base.copy({
+  'name': 'VALVE',
+  'train_info': '/home/azunino/Documents/Data/R4M_valve/annotation/trainval.json',
+  'train_images': '/home/azunino/Documents/Data/R4M_valve/rgb_HD/',
+  'valid_info': '/home/azunino/Documents/Data/R4M_valve/annotation/trainval.json',
+  'valid_images': '/home/azunino/Documents/Data/R4M_valve/rgb_HD/',
+  'class_names': ('valve',),
+  'label_map': { 1:  1 }
+})
+
+
+drill_LEONARDO= dataset_base.copy({
+  'name': 'DRILL',
+  'train_info': '/home/azunino/Documents/Data/Drill_imgs/Annots/trainval.json',
+  'train_images': '/home/azunino/Documents/Data/Drill_imgs/Imgs',
+  'valid_info': '/home/azunino/Documents/Data/Drill_imgs/Annots/trainval.json',
+  'valid_images': '/home/azunino/Documents/Data/Drill_imgs/Imgs',
+  'class_names': ('drill',),
+  'label_map': { 1:  1 }
+})
+
+ADE20= dataset_base.copy({
+  'name': 'ADE',
+  'train_info': '/home/azunino/Documents/Data/ADEChallengeData2016/ade20k_instance_train.json',
+  'train_images': '/home/azunino/Documents/Data/ADEChallengeData2016/images/training',
+  'valid_info': '/home/azunino/Documents/Data/ADEChallengeData2016/ade20k_instance_val.json',
+  'valid_images': '/home/azunino/Documents/Data/ADEChallengeData2016/images/validation', 
+  'class_names': ("bed", "windowpane", "cabinet", "person", "door", "table", "curtain", "chair", "car", "painting", "sofa", "shelf", "mirror", "armchair", "seat", "fence", "desk", "wardrobe", "lamp", "bathtub", "railing", "cushion", "box", "column", "signboard", "chest of drawers", "counter", "sink", "fireplace", "refrigerator", "stairs", "case", "pool table", "pillow", "screen door", "bookcase", "coffee table", "toilet", "flower", "book", "bench", "countertop", "stove", "palm", "kitchen island", "computer", "swivel chair", "boat", "arcade machine", "bus", "towel", "light", "truck", "chandelier", "awning", "streetlight", "booth", "television receiver", "airplane", "apparel", "pole", "bannister", "ottoman", "bottle", "van", "ship", "fountain", "washer", "plaything", "stool", "barrel", "basket", "bag", "minibike", "oven", "ball", "food", "step", "trade name", "microwave", "pot", "animal", "bicycle", "dishwasher", "screen", "sculpture", "hood", "sconce", "vase", "traffic light", "tray", "ashcan", "fan", "plate", "monitor", "bulletin board", "radiator", "glass", "clock", "flag"),
+'label_map': { 7:  1,  8:  2,  10:  3,  12:  4,  14:  5,  15:  6,  18:  7,  19:  8,  20:  9,  22:  10,  23:  11,  24:  12,  27:  13,  30:  14,  31:  15,  32:  16,  33:  17,  35:  18,  36:  19,  37:  20,  38:  21,  39:  22,  41:  23,  42:  24,  43:  25,  44:  26,  45:  27,  47:  28,  49:  29,  50:  30,  53:  31,  55:  32,  56:  33,  57:  34,  58:  35,  62:  36,  64:  37,  65:  38,  66:  39,  67:  40,  69:  41,  70:  42,  71:  43,  72:  44,  73:  45,  74:  46,  75:  47,  76:  48,  78:  49,  80:  50,  81:  51,  82:  52,  83:  53,  85:  54,  86:  55,  87:  56,  88:  57,  89:  58,  90:  59,  92:  60,  93:  61,  95:  62,  97:  63,  98:  64,  102:  65,  103:  66,  104:  67,  107:  68,  108:  69,  110:  70,  111:  71,  112:  72,  115:  73,  116:  74,  118:  75,  119:  76,  120:  77,  121:  78,  123:  79,  124:  80,  125:  81,  126:  82,  127:  83,  129:  84,  130:  85,  132:  86,  133:  87,  134:  88,  135:  89,  136:  90,  137:  91,  138:  92,  139:  93,  142:  94,  143:  95,  144:  96,  146:  97,  147:  98,  148:  99,  149:  100}
+})
+
+
+ADE20_subset= dataset_base.copy({
+  'name': 'ADE_subset',
+  'train_info': '/home/azunino/Documents/ADE_toolkit/train.json',
+  'train_images': '/home/azunino/Documents/Data/ADEChallengeData2016/images/training',
+  'valid_info': '/home/azunino/Documents/ADE_toolkit/train.json',
+  'valid_images': '/home/azunino/Documents/Data/ADEChallengeData2016/images/training', 
+  'class_names': ("chair", "door"),
+  'label_map': { 19:  1,  14:  2}
+})
 
 
 # ----------------------- TRANSFORMS ----------------------- #
@@ -862,6 +913,46 @@ yolact_plus_resnet50_box_penv_plenv_AI4M_config = yolact_plus_resnet50_config.co
 })
 
 
+yolact_plus_resnet50_objects_hrii_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_objects_hrii',
+    # Dataset stuff
+    'dataset': balance_corner_profile_hrii,
+    'num_classes': len(balance_corner_profile_hrii.class_names) + 1,
+
+})
+
+
+yolact_plus_resnet50_valve_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_valve',
+    # Dataset stuff
+    'dataset': valve_LEONARDO,
+    'num_classes': len(valve_LEONARDO.class_names) + 1,
+
+})
+
+yolact_plus_resnet50_drill_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_drill',
+    # Dataset stuff
+    'dataset': drill_LEONARDO,
+    'num_classes': len(drill_LEONARDO.class_names) + 1,
+
+})
+
+yolact_plus_resnet50_adesubset_classes_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_adesubset_classes',
+    # Dataset stuff
+    'dataset': ADE20_subset,
+    'num_classes': len(ADE20_subset.class_names) + 1,
+
+})
+
+yolact_plus_resnet50_ade_config = yolact_plus_resnet50_config.copy({
+    'name': 'yolact_plus_resnet50_ade',
+    # Dataset stuff
+    'dataset': ADE20,
+    'num_classes': len(ADE20.class_names) + 1,
+
+})
 
 # Default config
 cfg = yolact_base_config.copy()

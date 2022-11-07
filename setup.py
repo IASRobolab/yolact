@@ -7,7 +7,7 @@ setup(name='yolact',
       author_email='rollo.f96@gmail.com',
       url='https://github.com/robolableonardo/yolact',
       install_requires=[
-          'numpy', 'torch>=1.4.0', 'torchvision>=0.5.0', 'Pillow', 'scipy',
+          'numpy', 'Pillow', 'scipy',
           'scikit-learn', 'metric-learn', 'cython', 'opencv-python',
           'pycocotools', 'matplotlib'],
       packages=find_packages(),
